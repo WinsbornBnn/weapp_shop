@@ -1,0 +1,93 @@
+<style lang="less">
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+import './init.js'
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/tabs/home',
+      'pages/tabs/cates',
+      'pages/tabs/search',
+      'pages/tabs/cart',
+      'pages/tabs/my',
+      'pages/goods_detail/main',
+      'pages/goods_list'
+    ],
+    window: {
+      backgroundTextStyle: 'dark',
+      navigationBarBackgroundColor: '#e25982',
+      navigationBarTitleText: '婌渝优购',
+      navigationBarTextStyle: 'black'
+    },
+    'usingComponents': {
+      'van-sidebar': 'vendor/vant/sidebar/index',
+      'van-sidebar-item': 'vendor/vant//sidebar-item/index',
+      'van-row': 'vendor/vant/row/index',
+      'van-col': 'vendor/vant/col/index',
+      'van-search': 'vendor/vant/search/index',
+      'van-cell': 'vendor/vant/cell/index',
+      'van-cell-group': 'vendor/vant/cell-group/index',
+      'van-icon': 'vendor/vant/icon/index',
+      'van-tag': 'vendor/vant/tag/index',
+      'van-card': 'vendor/vant/card/index',
+      'van-tab': 'vendor/vant/tab/index',
+      'van-tabs': 'vendor/vant/tabs/index'
+    },
+    tabBar: {
+      selectedColor: '#D81E06',
+      list: [{
+        pagePath: 'pages/tabs/home',
+        text: '首页',
+        iconPath: '/assets/tabs/home.png',
+        selectedIconPath: '/assets/tabs/home-active.png'
+      },
+      {
+        pagePath: 'pages/tabs/cates',
+        text: '分类',
+        iconPath: '/assets/tabs/cates.png',
+        selectedIconPath: '/assets/tabs/cates-active.png'
+      },
+      {
+        pagePath: 'pages/tabs/search',
+        text: '搜索',
+        iconPath: '/assets/tabs/search.png',
+        selectedIconPath: '/assets/tabs/search-active.png'
+      },
+      {
+        pagePath: 'pages/tabs/cart',
+        text: '购物车',
+        iconPath: '/assets/tabs/cart.png',
+        selectedIconPath: '/assets/tabs/cart-active.png'
+      },
+      {
+        pagePath: 'pages/tabs/my',
+        text: '我的',
+        iconPath: '/assets/tabs/my.png',
+        selectedIconPath: '/assets/tabs/my-active.png'
+      }]
+    }
+  }
+  constructor () {
+    super()
+    this.use('requestfix')
+    // 为所有小程序 API 添加promise
+    this.use('promisify')
+// 拦截器
+    this.intercept('request', {
+      config: p => {
+        wepy.showLoading({
+          title: '加载中..'
+        })
+        return p
+      },
+      success: p => p,
+      fail: p => p,
+      complete: p => wepy.hideLoading()
+    })
+  }
+}
+</script>

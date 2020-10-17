@@ -1,0 +1,81 @@
+<template>
+  <view>
+    <!-- 轮播图 -->
+    <swiper class="swiper" indicator-active-color="#f00"
+      indicator-color="#fff" indicator-dots circular autoplay>
+      <swiper-item wx:for="{{swiperList}}" wx:key="index">
+        <navigator url="{{item.navigator_url}}" open-type="{{item.open_type}}" >
+          <image src="{{item.image_src}}" ></image>
+        </navigator>
+      </swiper-item>
+    </swiper>
+    <!-- 分类 -->
+    <view class="cates">
+      <block wx:for="{{categoryList}}" wx:key="{{index}}">
+        <navigator hover-class="none" url="/pages/tabs/cates" open-type="{{item.open_type}}" wx:if="{{item.navigator_url !==undefined}}">
+          <image src="{{item.image_src}}"></image>
+        </navigator>
+        <image src="{{item.image_src}}" wx:else></image>
+      </block>
+    </view>
+    <!-- 楼层区域 -->
+    <view class="floor-container">
+      <view class="floor-item" wx:for="{{floorList}}" wx:key="{{index}}">
+        <!-- 标题 -->
+        <image class="floor-item-title" src="{{item.floor_title.image_src}}"></image>
+        <!-- 图片 -->
+        <view class="floor-img-box">
+          <image wx:for="{{item.product_list}}" wx:key="index" src="{{item.image_src}}" style="width:{{item.image_width}}rpx;" class="floor-item-pic" @tap=goGoodsList({{item.navigator_url}})></image>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import mix from '@/mixins/tabs/home'
+export default class extends wepy.page {
+  config = {};
+  mixins = [mix]
+}
+</script>
+
+<style lang="less">
+.swiper{
+  height: 350rpx;
+  navigator,
+  image{
+    width: 750rpx;
+    height: 100%;
+  }
+}
+.cates{
+  display: flex;
+  justify-content: space-around;
+  margin: 40rpx 0;
+  image{
+    width: 128rpx;
+    height: 140rpx;
+  }
+}
+.floor-container{
+  .floor-item{
+    .floor-item-title{
+      height: 50rpx;
+      width: 640rpx;
+      display: block;
+    }
+    .floor-img-box{
+      .floor-item-pic{
+      float: left;
+      height: 190rpx;
+      margin: 0 8rpx 8rpx 8rpx;
+      &:nth-child(1){
+        height: 390rpx;
+      }
+      }
+    }
+  }
+}
+</style>

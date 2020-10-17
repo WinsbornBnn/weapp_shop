@@ -1,0 +1,43 @@
+<template>
+  <view>
+    <van-card
+      wx:for="{{goodsList}}"
+      wx:key="index"
+      class="goods"
+      num="{{item.goods_number}}"
+      price="{{item.goods_price}}"
+      title="{{item.goods_name}}"
+      thumb="{{item.goods_small_logo}}"
+      @tap=goGoodsList({{item.goods_id}})
+    />
+    <!-- 没有更多了 -->
+    <view class="no-more" hidden="{{canLoad}}">没有更多了~~</view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import mix from '@/mixins/goods_list'
+export default class extends wepy.page {
+  config = {
+    navigationBarTitleText: '商品列表',
+    onReachBottomDistance: 100,
+    enablePullDownRefresh: true,
+    backgroundColor: '#eee'
+  };
+  mixins = [mix]
+}
+</script>
+
+<style lang="less">
+.goods>view.van-card {
+  border-bottom: 1rpx solid #eee;
+}
+.no-more{
+  text-align: center;
+  color: #777;
+  font-size: 13px;
+  padding: 10px;
+  background-color: #eee;
+}
+</style>

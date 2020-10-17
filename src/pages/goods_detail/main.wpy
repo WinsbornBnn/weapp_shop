@@ -1,0 +1,149 @@
+<template>
+  <view>
+    <!-- 轮播图 -->
+    <swiper
+      class="swiper"
+      indicator-active-color="#f00"
+      indicator-color="#fff"
+      indicator-dots
+      circular
+      autoplay
+    >
+      <swiper-item wx:for="{{goodsInfo.pics}}" wx:key="index">
+        <image src="{{item.pics_big_url}}" class="swiper-image"></image>
+      </swiper-item>
+    </swiper>
+    <!-- 商品信息区域 -->
+    <view class="goods_info">
+      <!-- 价格、名称、运费 -->
+      <view class="box1">
+        <view class="price">￥{{ goodsInfo.goods_price }}</view>
+        <view class="goods_name">
+          <view class="left">{{ goodsInfo.goods_name }}</view>
+          <view class="right">
+            <van-icon name="star-o"></van-icon>
+            <view>收藏</view>
+          </view>
+        </view>
+        <view class="yunfei">快递：免运费</view>
+      </view>
+      <!-- 促销已选区域 -->
+      <view class="box2">
+        <!-- 促销 -->
+        <picker
+          range="{{saleArr}}"
+          value="{{saleIndex}}"
+          data-name="saleIndex"
+          @change="changePicker"
+        >
+          <view class="select-box">
+            <text class="label">促销</text>
+            <text class="info">{{ saleArr[saleIndex] }}</text>
+          </view>
+        </picker>
+        <picker
+          range="{{sizeArr}}"
+          value="{{sizeIndex}}"
+          data-name="sizeIndex"
+          @change="changePicker"
+        >
+          <view class="select-box">
+            <text class="label">已选</text>
+            <text class="info">{{ sizeArr[sizeIndex] }}</text>
+          </view>
+        </picker>
+      </view>
+      <!-- 收货地址 -->
+      <view class="box3">
+        <view class="select-box">
+          <text class="label">送至</text>
+          <text class="info">请选择收货地址</text>
+        </view>
+        <van-icon name="arrow"></van-icon>
+      </view>
+    </view>
+    <!-- 商品详情区域 -->
+    <van-tabs active="{{ active }}" bind:change="onChange">
+      <van-tab title="图文详情"> 图文详情 </van-tab>
+      <van-tab title="规格参数" class="tab2"> 规格参数 </van-tab>
+    </van-tabs>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import mix from '@/mixins/goods_detail'
+
+export default class extends wepy.page {
+  config = {};
+
+  mixins = [mix]
+}
+</script>
+
+<style lang="less">
+swiper {
+  height: 750rpx;
+  .swiper-image {
+    width: 750rpx;
+    height: 100%;
+  }
+}
+.goods_info {
+  .box1 {
+    padding: 0 10rpx;
+    border-bottom: 15rpx solid #efefef;
+    .price {
+      font-size: 40rpx;
+      color: #f00;
+      margin: 20rpx 0;
+    }
+    .goods_name {
+      display: flex;
+      justify-content: space-between;
+      .left {
+        font-size: 26rpx;
+        padding-right: 40rpx;
+      }
+      .right {
+        width: 200rpx;
+        text-align: center;
+        border-left: 1rpx solid #eee;
+        > view {
+          font-size: 20rpx;
+        }
+      }
+    }
+    .yunfei {
+      font-size: 26rpx;
+      color: #666;
+      font-weight: bold;
+      line-height: 80rpx;
+    }
+  }
+  .box2 {
+    font-size: 24rpx;
+    padding: 0 10rpx 10rpx;
+    border-bottom: 15rpx solid #efefef;
+  }
+  .select-box {
+    line-height: 80rpx;
+    .label {
+      margin-right: 20rpx;
+    }
+    .info {
+      color: #666;
+    }
+  }
+  .box3 {
+    display: flex;
+    justify-content: space-between;
+    font-size: 24rpx;
+    padding: 25rpx 10rpx 25rpx 10rpx;
+    border-bottom: 15rpx solid #efefef;
+    .select-box {
+      line-height: 40rpx;
+    }
+  }
+}
+</style>

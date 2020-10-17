@@ -1,0 +1,78 @@
+<template>
+  <view class="cates-container">
+    <!-- 左侧导航 -->
+    <scroll-view class="left" scroll-y >
+      <van-sidebar active-key="{{ activeKey }}" @change="onSideChange">
+        <van-sidebar-item
+          wx:for="{{cateList}}"
+          wx:key="index"
+          title="{{item.cat_name}}"
+        />
+      </van-sidebar>
+    </scroll-view>
+    <!-- 右侧视图区域 -->
+    <scroll-view class="right" scroll-y scroll-top="{{scrollTop}}">
+      <block wx:for="{{secondCate}}" wx:key="index">
+        <van-row>
+          <!-- 二级分类标题 -->
+          <van-col span="24" style="text-align: center">
+            <text space="emsp" class="cate-title">/ {{ item.cat_name }} /</text>
+          </van-col>
+        </van-row>
+        <!-- 三级分类 -->
+        <van-row>
+          <block wx:for="{{item.children}}" wx:key="index">
+            <van-col span="8" class="cell" @tap=goGoodsList({{item.cat_id}})>
+              <image src="{{item.cat_icon}}" class="thumbImg"></image>
+              <view class="thumbTitle">{{ item.cat_name }}</view>
+            </van-col>
+          </block>
+        </van-row>
+      </block>
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import mix from '@/mixins/tabs/cates'
+export default class extends wepy.page {
+  config = {};
+  mixins = [mix]
+}
+</script>
+
+<style lang="less">
+.cates-container {
+  display: flex;
+  .left {
+    width: 85px;
+    height: 100vh;
+  }
+  .right {
+    flex-grow: 1;
+    height: 100vh;
+    .cate-title {
+      font-size: 26rpx;
+      font-weight: bold;
+      display: inline-block;
+      margin: 30rpx;
+      text-align: center;
+    }
+    .cell {
+      > view.van-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .thumbImg {
+        width: 120rpx;
+        height: 120rpx;
+      }
+      .thumbTitle {
+        font-size: 26rpx;
+      }
+    }
+  }
+}
+</style>
